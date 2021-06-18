@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Git\\SA52T03SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj": {}
+    "D:\\Git\\SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj": {}
   },
   "projects": {
-    "D:\\Git\\SA52T03SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj": {
+    "D:\\Git\\SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Git\\SA52T03SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj",
+        "projectUniqueName": "D:\\Git\\SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj",
         "projectName": "SA52T03_SWStore",
-        "projectPath": "D:\\Git\\SA52T03SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj",
+        "projectPath": "D:\\Git\\SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj",
         "packagesPath": "C:\\Users\\44932\\.nuget\\packages\\",
-        "outputPath": "D:\\Git\\SA52T03SWStore\\SA52T03_SWStore\\obj\\",
+        "outputPath": "D:\\Git\\SWStore\\SA52T03_SWStore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\44932\\AppData\\Roaming\\NuGet\\NuGet.Config",

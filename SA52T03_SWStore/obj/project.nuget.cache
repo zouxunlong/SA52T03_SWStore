@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SWvqOno7KFx1GPZ8ZAV6uZGGHLbvG0Qk02Gd5NJvEZ7rf3QeKwjFY3hEMrGFOsSxWXNMlAbSwG5kzvk20cE1ug==",
+  "dgSpecHash": "xL1vYW3BRgDywUCYRrxq/Q8t4Qei+OGyYvD0JlB4ByCsgRI7hmlfhKncXdHS1/TnTp+BVsmAKgL2mCpX12DXBw==",
   "success": true,
-  "projectFilePath": "D:\\Git\\SA52T03SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj",
+  "projectFilePath": "D:\\Git\\SWStore\\SA52T03_SWStore\\SA52T03_SWStore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\44932\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.13\\microsoft.aspnetcore.cryptography.internal.3.1.13.nupkg.sha512",
     "C:\\Users\\44932\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.13\\microsoft.aspnetcore.cryptography.keyderivation.3.1.13.nupkg.sha512",
