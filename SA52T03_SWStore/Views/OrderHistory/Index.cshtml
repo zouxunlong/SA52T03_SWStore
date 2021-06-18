@@ -1,0 +1,87 @@
+﻿@model IEnumerable<SA52T03_SWStore.Models.Order>;
+
+@{
+    ViewData["Title"] = "My Purchase";
+    List<Order> allOrder = new List<Order> { };
+
+    foreach (Order item in Model)
+    {
+        allOrder.Add(item);
+        allOrder.Sort((a, b) => a.OrderDate.CompareTo(b.OrderDate));
+        allOrder.Reverse();
+    }
+}
+
+<h3 style="padding-top:100px">My Purchase</h3>
+<div class="input-group" style="float:right;padding-top:30px;">
+    <span class="glyphicon glyphicon-search"></span>
+    <input type="text" class="form-control " id="filterName" placeholder="Search" />
+</div>
+
+<table class="table" width="80%" align="center" cellpadding="30" style="margin-bottom:50px; margin-top:40px;">
+    @foreach (Order item in allOrder)
+    {
+        @foreach (OrderDetail orderdetail in item.OrderDetail)
+        {
+            <tr height="200px">
+                <td width="40%">
+                    <div style="border:0px solid #008cba; border-radius: 5px; height:180px">
+                        <div align="center">
+                            <p align="center"><img src="@orderdetail.Product.Image" width="80" height="80" style="margin-top:10px;" /></p>
+                            <p class="card-title h5"><b style="color:#2c3e50">@orderdetail.Product.Name</b></p>
+                            <p align="center" style=" font-size: 15px">@orderdetail.Product.Description</p>
+                        </div>
+                    </div>
+                </td>
+
+                <td>
+                    <div>
+                        <div class=" row">
+                            <label class="col-sm-3"> Purchased On:</label>
+                            <span class="col-sm-8"> @Html.DisplayFor(modelItem => item.OrderDate)</span>
+                        </div>
+                        <div class=" row">
+                            <label class="col-sm-3"> Quantity:</label>
+                            <span class="col-sm-8"> @Html.DisplayFor(modelItem => orderdetail.Quantity)</span>
+                        </div>
+                        <div class=" row">
+                            <label class="col-sm-3"> Remaining Days:</label>
+                            <span class="col-sm-8" id="RemainingDays">
+                                @if (((DateTime.Now).Subtract(item.OrderDate)).Days < 365)
+                                {
+                                    <span>@(365-(DateTime.Now).Subtract(item.OrderDate).Days)</span>
+                                }
+                                else
+                                {
+                                    <span>0</span>
+                                }
+                            </span>
+                        </div>
+                        <div class=" row">
+                            <label class="col-sm-3"> Activation Code:</label>
+                            <span class="col-sm-8">
+                                <select>
+                                    @foreach (ACode aCode in orderdetail.ACode)
+                                    {
+                                        <option>
+                                            @aCode.ACChain
+                                        </option>
+                                    }
+                                </select>
+                            </span>
+                        </div>
+                        <div>
+                            <a class="btn btn-link btn-outline-light col-sm-4 AddToCart" style="float:right" productId="@orderdetail.Product.Id">Order Again</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+<script src="~/js/Orderhistory_Search.js"></script>
+<script src="~/js/home.js"></script>

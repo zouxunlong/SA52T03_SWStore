@@ -1,0 +1,184 @@
+﻿@model HomePageViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+<style>
+    .ATCBtn {
+        margin-bottom: 20px;
+        margin-top: 20px;
+        transition: all 0.3s ease-in-out;
+        vertical-align: auto;
+        text-align: center;
+        width: 100%;
+        color: white !important;
+    }
+
+        .ATCBtn:hover {
+            background-color: #00b01f;
+            font-weight: bolder;
+            border: 1px solid #00b01f;
+        }
+
+
+    .badge {
+        font-size: 14px !important;
+    }
+
+    .badge_container {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        opacity: 0.9;
+    }
+
+
+    .btn-width {
+        width: 150px !important;
+    }
+ .badge_container {
+     position: absolute;
+     left: 10px;
+     top: 10px;
+     opacity: 0.9;
+ }
+ .btn-width {
+     width: 150px !important;
+ }
+    .card {
+        box-shadow: 1px 2px 2px 2px rgba(0,0,0,0.30);
+        border: 1px solid rgba(42,44,46,.125) !important;
+    }
+</style>
+
+
+<div class="container" style="padding-top:100px">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="d-inline">Product</h3>
+            <div class="dropdown show d-inline px-2">
+                <a class="btn btn-light dropdown-toggle btn-width" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @if ((string)ViewData["Action"] == "Category")
+                    {
+                        @ViewData["id"]
+                    }
+                    else
+                    {
+                        @:Category
+                    }
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" asp-action="Index" asp-controller="Home">All Products</a>
+                    @foreach (Category cat in Model.Category)
+                    {
+                        <a class="dropdown-item" asp-action="Category" asp-controller="Home" asp-route-id=@cat.Name>@cat.Name</a>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col text-center">
+            @ViewData["SearchResult"]
+        </div>
+        <div class="col text-right">
+            <form asp-controller="Home" asp-action="SearchResult" method="get">
+                <input type="text" placeholder="Search.." name="SearchString" />
+                <input type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        @foreach (var product in Model.Product.Skip(Model.Pager.PageSize * (Model.Pager.CurrentPage - 1)).Take(Model.Pager.PageSize))
+        {
+            <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 border-dark">
+
+                    <img src="@product.Image" class="card-img-top align-self-center p-1" style="height:150px; width:auto; margin-top: 10px;" />
+
+                    <div class="badge_container">
+                        @if (product.Category.Name == "Media")
+                        {
+                            <span class="badge badge-info">@product.Category.Name</span>
+                        }
+                        else if (product.Category.Name == "Game")
+                        {
+                            <span class="badge badge-success">@product.Category.Name</span>
+                        }
+                        else if (product.Category.Name == "Productivity")
+                        {
+                            <span class="badge badge-primary">@product.Category.Name</span>
+                        }
+                        else if (product.Category.Name == "Security")
+                        {
+                            <span class="badge badge-danger">@product.Category.Name</span>
+                        }
+
+                    </div>
+
+                    <div class="card-body" style="margin-top: 10px;">
+                        <h5 class="card-title" style="font-size: xx-large;">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <p class="card-text" style="font-size: x-large;"> $@string.Format("{0:f}", product.Price)</p>
+                        <a class="btn btn-primary ATCBtn AddToCart" productId="@product.Id">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            @if (Model.Pager.CurrentPage == 1)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" asp-action=@ViewData["Action"] asp-route-id=@ViewData["id"] asp-route-page=@Model.Pager.CurrentPage aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action=@ViewData["Action"] asp-route-id=@ViewData["id"] asp-route-page=@(Model.Pager.CurrentPage-1) aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            }
+            @for (int i = Model.Pager.StartPage; i <= Model.Pager.EndPage; i++)
+            {
+                if (i == Model.Pager.CurrentPage)
+                {
+                    <li class="page-item active"><a class="page-link" asp-action=@ViewData["Action"] asp-route-id=@ViewData["id"] asp-route-page=@i>@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" asp-action=@ViewData["Action"] asp-route-id=@ViewData["id"] asp-route-page=@i>@i</a></li>
+                }
+
+            }
+            @if (Model.Pager.CurrentPage == Model.Pager.TotalPages)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" asp-action=@ViewData["Action"] asp-route-id=@ViewData["id"] asp-route-page=@Model.Pager.CurrentPage aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action=@ViewData["Action"] asp-route-id=@ViewData["id"] asp-route-page=@(Model.Pager.CurrentPage+1) aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+<script src="~/js/home.js"></script>

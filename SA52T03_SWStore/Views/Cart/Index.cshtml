@@ -1,0 +1,191 @@
+﻿@model IEnumerable<SA52T03_SWStore.Models.ShoppingCart>
+@{
+    ViewData["Title"] = "My ShoppingCart";
+    List<ShoppingCart> shoppingCarts = Model.ToList();
+    double total = 0;
+    foreach (ShoppingCart shoppingCart in shoppingCarts)
+    {
+        total += shoppingCart.Product.Price * shoppingCart.Quantity;
+    }
+    string totalprice = string.Format("{0:f}", total);
+}
+<style>
+    * {
+        /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+        vertical-align: central;
+    }
+
+    .price {
+        width: 100px;
+    }
+
+    .boldmenu {
+        font-weight: bolder;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .menubar:hover {
+        font-weight: bolder;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .itemName {
+        font-weight: bold;
+        font-size: larger;
+    }
+
+    .itemPrice {
+        font-size: large;
+    }
+
+    .images1 {
+        padding-bottom: 10px;
+    }
+
+    td {
+        padding-bottom: 30px;
+        padding-left: 20px;
+        padding-top: 28px;
+    }
+
+    input[type='number'] {
+        font-size: medium;
+        border: 0px;
+        padding-left: 10px;
+        padding-right: 2px;
+        width: 30px;
+        padding-bottom: 20px;
+    }
+
+    .buttonCart {
+        background-color: #256DD8;
+        border: 2px outset white;
+        border-radius: 12px;
+        color: white;
+        font-family: fordAntenna, Helvetica, Courier;
+        font-size: 16pt;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 0.3s ease-in-out;
+        height: auto;
+        width: 200px;
+    }
+
+        .buttonCart:hover {
+            background-color: #00b01f;
+            border: 2px inset white;
+            color: white;
+            font-weight: bold;
+        }
+
+    .addBtn, .minusBtn, .removeBtn {
+        cursor: pointer;
+        border: 0px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .table1 {
+        margin: auto;
+        width: 750px;
+        background: white;
+        box-shadow: 1px 2px 3px 3px rgba(0,0,0,0.30);
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        flex-wrap: nowrap;
+        margin-bottom: 38px;
+    }
+
+    .table2 {
+        margin: auto;
+        width: 750px;
+    }
+</style>
+
+<div class="row align-items-center">
+    <div class="col">
+        <h3 style="padding-top:100px">Shopping Cart</h3>
+    </div>
+</div>
+
+<hr />
+
+<div id="cart">
+    @if (Model.Count() > 0)
+    {
+        <table id="table1" class="table1">
+            @for (int i = 0; i < shoppingCarts.Count(); i++)
+            {
+
+                @:<tr>
+                    @:<td>
+                        @:<img class="productImages" id="productImages[i]" src="@shoppingCarts[i].Product.Image" width="60" height="70" />
+                    @:</td>
+                    @:<td style="width:350px; padding-left:30px;">
+                        <p class="itemName">@shoppingCarts[i].Product.Name</p>
+                    @:</td>
+                    @:<td style="padding-right:30px;">
+                        <p class="itemPrice">$ @string.Format("{0:f}", shoppingCarts[i].Product.Price)</p>
+                    @:</td>
+                    @:<td style="padding-bottom: 45px;">
+                        <img src="~/images/plus.png" class="addBtn AddToCart" productId="@shoppingCarts[i].Product.Id" />
+                    @:</td>
+                    @:<td>
+                        <p class="item_qty" id="@shoppingCarts[i].Product.Id">@shoppingCarts[i].Quantity</p>
+                    @:</td>
+                    @:<td style="padding-bottom: 45px;">
+                        <img src="~/images/minus.png" class="minusBtn DeduceFromCart" productId="@shoppingCarts[i].Product.Id" />
+                    @:</td>
+                @:</tr>
+            }
+        </table>
+    }
+    @if (Model.Count() == 0)
+    {
+        <p>Shopping Cart is empty! Click Continue Shopping and Add Items to Cart!</p>
+
+        <br />
+        <br />
+        <table class="table2">
+            <tr>
+                <td style="float:right;">
+                    <a asp-controller="Home" asp-action="Index"><input type="button" id="ContinueShopping" style="float:right; width: 300px;" class="buttonCart" value="Continue Shopping" /></a>
+                </td>
+            </tr>
+        </table>
+
+    }
+    else
+    {
+        <table class="table2">
+            <tr>
+                <td width="150px">
+                    <p><b>TOTAL PRICE: </b></p><input style="width:200px; border: 0px; font-weight: bold; font-size:x-large;" type="text" id="totalPrice" value=$@totalprice />
+                </td>
+            </tr>
+        </table>
+        <table class="table2">
+            <tr>
+                <td>
+                    <a asp-controller="Home" asp-action="Index"><p style="font-size: 16pt;">Continue Shopping</p></a>
+                </td>
+                <td style="float:right;">
+                    <a asp-controller="Cart" asp-action="CheckOut"><input type="button" id="Checkout" style="float:right;" class="buttonCart" value="Checkout Now" /></a>
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+
+<script src="~/js/cart.js"></script>
